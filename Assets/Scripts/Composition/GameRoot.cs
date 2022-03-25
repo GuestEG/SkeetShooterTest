@@ -13,6 +13,7 @@ namespace Composition
         
         [Header("Configs")] 
         [SerializeField] private CameraConfig _cameraConfig;
+        [SerializeField] private GameConfig _gameConfig;
         
         private void Start()
         {
