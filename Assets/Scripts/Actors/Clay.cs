@@ -8,8 +8,11 @@ namespace Actors
         [SerializeField] private ParticleSystem _explosion;
         [SerializeField] private TrailRenderer _trail;
 
+        public bool Exploded { get; private set; }
+
         public void Clear()
         {
+            Exploded = false;
             _clayBody.SetActive(true);
             _trail.Clear();
             _explosion.Stop(true);
@@ -18,6 +21,7 @@ namespace Actors
         
         public void Explode()
         {
+            Exploded = true;
             _clayBody.SetActive(false);
             _explosion.Play(true);
         }

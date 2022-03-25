@@ -9,7 +9,8 @@ namespace Composition
     {
         [SerializeField] private DragDetect _dragDetect;
         [SerializeField] private CameraController _cameraController;
-        // [SerializeField] private LaunchersController _launchersController;
+        [SerializeField] private LaunchersController _launchersController;
+        [SerializeField] private AimController _aimController;
         
         [Header("Configs")] 
         [SerializeField] private CameraConfig _cameraConfig;
@@ -19,6 +20,7 @@ namespace Composition
         {
             _cameraController.SetConfig(_cameraConfig);
             _dragDetect.DragEventDelta += _cameraController.OnDeltaDrag;
+            _aimController.SetConfig(_gameConfig, _launchersController, _cameraController);
         }
     }
 }

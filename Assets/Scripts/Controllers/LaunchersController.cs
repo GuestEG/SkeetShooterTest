@@ -16,11 +16,11 @@ namespace Controllers
 
 		public Clay ClayObject { get; private set; }
 
-		private int _numLaunch = 0;
-
-		private bool IsFlying => Time.time <= _endFlight;
+		public bool IsFlying => Time.time <= _endFlight && ClayObject != null;
+		public float TimeInFlight => _flyTime - (_endFlight - Time.time);
 
 		private float _endFlight = 0f;
+		private int _numLaunch = 0;
 
 		public void Launch()
 		{
