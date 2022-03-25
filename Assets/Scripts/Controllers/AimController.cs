@@ -85,12 +85,11 @@ namespace Controllers
 		private void Shoot(LaunchersController launchersController, WeaponController weaponController, float hitProbability = 1.0f)
 		{
 			//play shoot animation
-
+			weaponController.Shoot();
 			//the higher is progress - the more surface of random it will cover
 			var isHit = hitProbability >= UnityEngine.Random.value;
 			if (isHit)
 			{
-				weaponController.Shoot();
 				launchersController.HitClay();
 			}
 		}
