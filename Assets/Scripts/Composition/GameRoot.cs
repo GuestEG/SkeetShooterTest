@@ -11,16 +11,18 @@ namespace Composition
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private LaunchersController _launchersController;
         [SerializeField] private AimController _aimController;
+        [SerializeField] private WeaponController _weaponController;
         
         [Header("Configs")] 
         [SerializeField] private CameraConfig _cameraConfig;
-        [SerializeField] private GameConfig _gameConfig;
+        [SerializeField] private AimConfig _aimConfig;
+        
         
         private void Start()
         {
             _cameraController.SetConfig(_cameraConfig);
             _dragDetect.DragEventDelta += _cameraController.OnDeltaDrag;
-            _aimController.SetConfig(_gameConfig, _launchersController, _cameraController);
+            _aimController.SetConfig(_aimConfig, _launchersController, _cameraController, _weaponController);
         }
     }
 }

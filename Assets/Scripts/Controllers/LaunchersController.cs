@@ -4,10 +4,10 @@ namespace Controllers
 	using UnityEngine;
 	using UnityEngine.UI;
 
-	public class LaunchersController : MonoBehaviour
+	public sealed class LaunchersController : MonoBehaviour
 	{
 		private static int ClayFlight = Animator.StringToHash("ClayFlight");
-		
+
 		[SerializeField] private Launcher[] _launchers;
 		[SerializeField] private Clay _clayPrefab;
 		[SerializeField] private Button _launchButton;
@@ -16,11 +16,14 @@ namespace Controllers
 
 		public Clay ClayObject { get; private set; }
 
-		public bool IsFlying => Time.time <= _endFlight && ClayObject != null;
-		public float TimeInFlight => _flyTime - (_endFlight - Time.time);
+		public bool IsFlying => Time.time <= _endFlight && ClayObject != null && !ClayObject.Exploded;
+
+		public float TimeLeft => _endFlight - Time.time;
+		public float TimeInFlight => _flyTime - TimeLeft;
 
 		private float _endFlight = 0f;
 		private int _numLaunch = 0;
+		private Launcher CurLauncher =>  _launchers[_numLaunch];
 
 		public void Launch()
 		{
@@ -28,15 +31,20 @@ namespace Controllers
 			{
 				ClayObject = Instantiate(_clayPrefab);
 			}
-
-			var launcher = _launchers[_numLaunch];
-			_numLaunch++;
-			_numLaunch %= _launchers.Length;
+			
 			ClayObject.Clear();
-			ClayObject.transform.SetParent(launcher.ClayContainer, false);
-			launcher.Animator.Play(ClayFlight);
+			ClayObject.transform.SetParent(CurLauncher.ClayContainer, false);
+			CurLauncher.Animator.Play(ClayFlight);
 
 			_endFlight = Time.time + _flyTime;
+
+			_numLaunch++;
+			_numLaunch %= _launchers.Length;
+		}
+
+		public void HitClay()
+		{
+			ClayObject.Explode();
 		}
 
 		private void Start()
